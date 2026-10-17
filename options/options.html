@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Rad-Copilot — Templates & Settings</title>
+<style>
+  body { font: 14px/1.5 "Segoe UI", system-ui, sans-serif; margin: 0; color: #17222b; }
+  header { background: #0b6e4f; color: #fff; padding: 12px 20px; }
+  main { display: grid; grid-template-columns: 260px 1fr; gap: 16px; padding: 16px 20px; }
+  ul { list-style: none; padding: 0; margin: 8px 0; }
+  li { padding: 6px 8px; cursor: pointer; border-radius: 6px; }
+  li:hover, li.selected { background: #eef7f2; }
+  textarea { width: 100%; height: 60vh; font: 12px ui-monospace, Consolas, monospace; }
+  .row { margin: 6px 0; display: flex; gap: 8px; }
+  button { padding: 6px 12px; border: 1px solid #d5dde2; background: #f7fafc; border-radius: 6px; cursor: pointer; }
+  button.primary { background: #0b6e4f; color: #fff; border-color: #0b6e4f; }
+  details { border: 1px solid #d5dde2; border-radius: 8px; padding: 10px; }
+  label { display: block; margin: 8px 0 2px; font-weight: 600; }
+  .warn { color: #b3261e; }
+</style>
+</head>
+<body>
+<header><h1 style="margin:0;font-size:18px">Rad-Copilot — Template Library & Settings</h1></header>
+<main>
+  <aside>
+    <h2 style="font-size:14px">Templates</h2>
+    <ul id="tplList"></ul>
+    <div class="row">
+      <button id="newTpl">➕ New</button>
+      <button id="importTpl">⬇ Import</button>
+      <button id="deleteTpl">🗑 Delete</button>
+    </div>
+    <input type="file" id="fileInput" accept="application/json" style="display:none" />
+    <details open>
+      <summary><strong>Settings</strong></summary>
+      <label for="asrSel">Dictation engine</label>
+      <select id="asrSel">
+        <option value="webspeech">Chrome Web Speech (free; audio processed on Google's service)</option>
+        <option value="whisper-server">Local whisper.cpp server (free, 100% on-device)</option>
+      </select>
+      <label for="asrEndpoint">Local ASR server endpoint (whisper.cpp / OpenAI-compatible)</label>
+      <input id="asrEndpoint" style="width:100%" placeholder="http://localhost:8000/inference" />
+      <label for="langSel">Speech language</label>
+      <select id="langSel">
+        <option value="en-IN">English (India)</option>
+        <option value="en-US">English (US)</option>
+        <option value="en-GB">English (UK)</option>
+      </select>
+      <label for="customVocab">Personal medical vocabulary (comma-separated; speaker adaptation)</label>
+      <input id="customVocab" style="width:100%" placeholder="e.g. IHBRD, perinephric, pelvicalyceal, hydroureteronephrosis" />
+      <p style="font-size:12px;color:#5d7079">
+        Everything runs on your computer. No findings or reports are stored or
+        transmitted. Draft persistence is intentionally disabled (health-data
+        minimisation). The local whisper server option requires running the free,
+        open-source whisper.cpp server on the same machine (see README).
+      </p>
+    </details>
+  </aside>
+  <section>
+    <div class="row">
+      <button id="saveTpl" class="primary">💾 Save template</button>
+      <button id="validateTpl">Validate</button>
+      <button id="exportTpl">⬆ Export</button>
+      <a id="downloadLink" style="display:none"></a>
+    </div>
+    <div id="status" style="min-height:20px"></div>
+    <textarea id="tplEditor" spellcheck="false" placeholder="Paste earlier template JSON"></textarea>
+    <p style="font-size:12px;color:#5d7079">
+      Templates are plain JSON: <code>sections[].normalStatements</code> hold your organ normal
+      patterns, <code>slots</code> map which normal line a documented finding replaces, and
+      <code>rules</code> define spoken phrases → professional sentences (placeholders like
+      <code>{sizePhrase}</code>, <code>{sitePhrase}</code>, <code>{qualifierPhrase}</code>).
+    </p>
+  </section>
+</main>
+<script type="module" src="options.js"></script>
+</body>
+</html>

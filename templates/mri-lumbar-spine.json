@@ -1,0 +1,146 @@
+{
+  "id": "mri-lumbar-spine",
+  "name": "MRI Lumbar Spine",
+  "studyType": "MRI lumbosacral spine, sagittal and axial T1/T2 sequences",
+  "defaultPhase": null,
+  "sections": [
+    {
+      "id": "alignment",
+      "title": "Alignment",
+      "organ": "spine",
+      "organHints": ["alignment", "scoliosis", "lordosis"],
+      "normalStatements": ["Normal lumbar lordosis. No significant scoliosis."],
+      "slots": [
+        { "id": "deformity", "replaceNormal": "Normal lumbar lordosis" }
+      ],
+      "rules": [
+        {
+          "id": "alignment-deformity",
+          "matchPhrases": ["scoliosis", "spondylolisthesis", "listhesis", "lordosis"],
+          "subject": "alignment deformity",
+          "slot": "deformity",
+          "render": { "default": "{qualifiersAdj} deformity of alignment is noted{locationPhrase}." },
+          "impressionText": "Alignment abnormality{locationShort}.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "vertebrae",
+      "title": "Vertebrae and Marrow",
+      "organ": "spine",
+      "organHints": ["vertebra", "marrow"],
+      "normalStatements": ["Vertebral bodies and marrow show normal signal intensity.", "No compressive fracture."],
+      "slots": [
+        { "id": "marrow-lesion", "replaceNormal": "Vertebral bodies" },
+        { "id": "fracture", "replaceNormal": "No compressive fracture" }
+      ],
+      "rules": [
+        {
+          "id": "marrow-lesion",
+          "matchPhrases": ["lesion", "marrow", "infiltration", "metastasis"],
+          "subject": "marrow lesion",
+          "slot": "marrow-lesion",
+          "render": { "default": "{qualifiersAdj} marrow signal abnormality{qualifierPhrase} is noted{locationPhrase}." },
+          "impressionText": "Marrow signal abnormality{locationShort} — characterise.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "compression-fracture",
+          "matchPhrases": ["compression fracture", "fracture", "wedge"],
+          "subject": "compression fracture",
+          "slot": "fracture",
+          "render": { "default": "{qualifiersAdj} compression fracture{qualifierPhrase} is noted{locationPhrase}." },
+          "impressionText": "Compression fracture{locationShort}.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "discs",
+      "title": "Intervertebral Discs",
+      "organ": "spine",
+      "organHints": ["disc"],
+      "normalStatements": ["Discs show normal signal and height.", "No disc bulge or protrusion."],
+      "slots": [
+        { "id": "disc", "replaceNormal": "No disc bulge or protrusion" }
+      ],
+      "rules": [
+        {
+          "id": "disc-desiccation",
+          "matchPhrases": ["desiccation", "dehydration"],
+          "subject": "disc desiccation",
+          "slot": "disc",
+          "render": { "default": "{qualifiersAdj} disc desiccation is noted{locationPhrase}." },
+          "impressionText": "Disc desiccation{locationShort}.",
+          "impressionPriority": 3
+        },
+        {
+          "id": "disc-bulge",
+          "matchPhrases": ["disc bulge", "bulge"],
+          "subject": "disc bulge",
+          "slot": "disc",
+          "render": { "default": "{qualifiersAdj} disc bulge{qualifierPhrase} is noted{locationPhrase}." },
+          "impressionText": "Disc bulge{qualifierShort}{locationShort}.",
+          "impressionPriority": 2
+        },
+        {
+          "id": "disc-protrusion",
+          "matchPhrases": ["protrusion", "herniation", "extrusion", "prolapse"],
+          "subject": "disc protrusion",
+          "slot": "disc",
+          "render": { "default": "{qualifiersAdj} disc protrusion{qualifierPhrase} is noted{locationPhrase}." },
+          "impressionText": "Disc protrusion{qualifierShort}{locationShort}.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "canal-nerve",
+      "title": "Spinal Canal and Nerve Roots",
+      "organ": "spine",
+      "organHints": ["canal", "nerve"],
+      "normalStatements": ["Spinal canal shows normal width.", "Nerve roots are normal in signal and position."],
+      "slots": [
+        { "id": "stenosis", "replaceNormal": "Spinal canal" }
+      ],
+      "rules": [
+        {
+          "id": "canal-stenosis",
+          "matchPhrases": ["stenosis", "narrowing", "compressed"],
+          "subject": "central stenosis",
+          "slot": "stenosis",
+          "render": { "default": "{qualifiersAdj} central spinal stenosis{qualifierPhrase} is noted{locationPhrase}." },
+          "impressionText": "{qualifierShort} central spinal stenosis{locationShort}.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "soft-tissue",
+      "title": "Prevertebral and Paravertebral Soft Tissue",
+      "organ": "spine",
+      "organHints": ["soft tissue", "paravertebral"],
+      "normalStatements": ["Prevertebral and paravertebral soft tissues are normal."],
+      "slots": [
+        { "id": "soft-tissue-lesion", "replaceNormal": "Prevertebral and paravertebral" }
+      ],
+      "rules": [
+        {
+          "id": "soft-tissue-lesion",
+          "matchPhrases": ["collection", "mass", "lesion", "abscess"],
+          "subject": "paravertebral lesion",
+          "slot": "soft-tissue-lesion",
+          "render": { "default": "{qualifiersAdj} lesion/collection{qualifierPhrase} is noted in the paravertebral soft tissue." },
+          "impressionText": "Paravertebral lesion/collection.",
+          "impressionPriority": 2
+        }
+      ]
+    }
+  ],
+  "indicationPatterns": [
+    { "match": "sciatica|radiculopathy|leg pain", "line": "Findings should be clinically correlated with the stated radicular symptoms." },
+    { "match": "low back pain|backache|lbp", "line": "Findings correlate with the stated low backache." }
+  ],
+  "relevantNegatives": []
+}

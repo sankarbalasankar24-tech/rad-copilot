@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rad-Copilot — Templates &amp; Settings</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b6e4f'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='Segoe UI'>R</text></svg>" />
+<link rel="stylesheet" href="./web-ui.css" />
+</head>
+<body>
+<header class="page-header">
+  <h1>Templates &amp; Settings</h1>
+  <div class="sub">Template library · dictation engine · report formatting · personal vocabulary — everything stays on this computer.</div>
+</header>
+
+<main class="settings-shell">
+  <aside>
+    <h2 style="margin-top:20px">📋 Templates</h2>
+    <ul id="tplList"></ul>
+    <div class="row">
+      <button id="newTpl">➕ New</button>
+      <button id="importTpl">⬇ Import</button>
+      <button id="deleteTpl">🗑 Delete</button>
+    </div>
+    <input type="file" id="fileInput" accept="application/json" style="display:none" />
+
+    <details open>
+      <summary><strong>Dictation</strong></summary>
+      <label for="asrSel">Dictation engine</label>
+      <select id="asrSel">
+        <option value="webspeech">Google Web Speech — instant, free, needs internet (audio processed by Google's service)</option>
+        <option value="whisper-server">Local whisper.cpp — fully offline, needs the whisper-server program running on this PC (see README)</option>
+      </select>
+      <label for="asrEndpoint">Endpoint for local whisper.cpp server (offline engine only)</label>
+      <input id="asrEndpoint" style="width:100%" placeholder="http://localhost:8080/inference" />
+      <label for="langSel">Speech language</label>
+      <select id="langSel">
+        <option value="en-IN">English (India)</option>
+        <option value="en-US">English (US)</option>
+        <option value="en-GB">English (UK)</option>
+      </select>
+      <label for="customVocab">Personal medical vocabulary (comma-separated)</label>
+      <input id="customVocab" style="width:100%" placeholder="e.g. IHBRD, perinephric, pelvicalyceal, hydroureteronephrosis" />
+      <p class="hint" style="margin:8px 0 2px">
+        No findings or reports are stored. Only templates &amp; these settings live
+        in this browser's localStorage. The offline engine requires the free
+        whisper.cpp server running on the same machine (see README).
+      </p>
+    </details>
+
+    <details>
+      <summary><strong>🖨 Report formatting (Word style)</strong></summary>
+      <p class="hint" style="margin-top:6px">
+        Applies to the on-screen report and to the rich text placed on the clipboard, so a
+        paste into the PACS/RIS keeps the look. Formatting is set per section; any finding
+        dictated later inherits its section's format automatically.
+      </p>
+      <label for="fontSel">Default font</label>
+      <select id="fontSel"></select>
+      <label for="sizeSel">Default size</label>
+      <select id="sizeSel"></select>
+      <label class="chk"><input type="checkbox" id="indentAll" /> Indent every sentence</label>
+      <h3 style="font-size:13px;margin:12px 0 2px">Per-section styles</h3>
+      <table id="fmtTable">
+        <thead><tr><th>Section</th><th>B</th><th>I</th><th>U</th><th>Indent</th></tr></thead>
+        <tbody id="fmtRows"></tbody>
+      </table>
+      <div class="row" style="margin-top:10px">
+        <button id="saveFmt" class="primary">💾 Save formatting</button>
+        <button id="resetFmt" class="ghost">Reset to defaults</button>
+      </div>
+      <div id="fmtStatus"></div>
+    </details>
+  </aside>
+
+  <section>
+    <div class="row" style="margin:20px 0 6px">
+      <button id="saveTpl" class="primary">💾 Save template</button>
+      <button id="validateTpl">✔ Validate</button>
+      <button id="exportTpl">⬆ Export JSON</button>
+      <a id="downloadLink" style="display:none"></a>
+    </div>
+    <div id="status"></div>
+    <textarea id="tplEditor" class="tpl" spellcheck="false" placeholder="Template JSON loads here — edit and Save"></textarea>
+    <p class="hint" style="margin-top:10px">
+      Templates are plain JSON: <code>sections[].normalStatements</code> hold your organ normal
+      patterns, <code>slots</code> map which normal line a documented finding replaces, and
+      <code>rules</code> define spoken phrases → professional sentences (placeholders like
+      <code>{sizePhrase}</code>, <code>{sitePhrase}</code>, <code>{qualifierPhrase}</code>).
+    </p>
+  </section>
+</main>
+
+<script type="module" src="./settings-web.js"></script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+{
+  "id": "cect-abdomen",
+  "name": "CECT Abdomen & Pelvis (Portal Venous)",
+  "studyType": "CT abdomen and pelvis, portal venous phase, supine",
+  "defaultPhase": "portal venous",
+  "sections": [
+    {
+      "id": "liver",
+      "title": "Liver",
+      "organ": "liver",
+      "organHints": ["liver"],
+      "normalStatements": [
+        "Liver is normal in size and attenuation.",
+        "No focal lesion.",
+        "No IHBRD."
+      ],
+      "slots": [
+        { "id": "steat", "replaceNormal": "normal in size and attenuation" },
+        { "id": "lesions", "replaceNormal": "No focal lesion" },
+        { "id": "ihbrd", "replaceNormal": "No IHBRD" }
+      ],
+      "rules": [
+        {
+          "id": "hepatic-steatosis",
+          "matchPhrases": ["fatty liver", "fatty change", "fatty infiltration", "steatosis", "fatty"],
+          "subject": "hepatic steatosis",
+          "slot": "steat",
+          "render": { "default": "Liver is normal in size and shows {severityAdj} steatosis." },
+          "impressionText": "{severityAdj} hepatic steatosis.",
+          "impressionPriority": 3
+        },
+        {
+          "id": "hepatic-cyst",
+          "matchPhrases": ["simple cyst", "cyst"],
+          "subject": "simple cyst",
+          "slot": "lesions",
+          "render": { "default": "A {sizePhrase} simple cyst{qualifierPhrase} is noted {locationPhrase}." },
+          "impressionText": "{sizePhrase} simple cyst{qualifierShort} in the liver{locationShort}.",
+          "impressionPriority": 5
+        },
+        {
+          "id": "liver-lesion",
+          "matchPhrases": ["mass", "lesion", "hcc", "hemangioma", "metastasis", "metastases", "sol"],
+          "subject": "liver lesion",
+          "slot": "lesions",
+          "qualifierMode": "adjective",
+          "render": { "default": "A {sizePhrase}{qualifiersAdj} lesion is noted in the liver{locationPhrase}." },
+          "impressionText": "Lesion in the liver{locationShort}{sizeShort} — characterise and correlate.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "ihbr-dilation",
+          "matchPhrases": ["ihbrd", "intrahepatic biliary", "biliary radicles"],
+          "subject": "IHBRD",
+          "slot": "ihbrd",
+          "render": { "default": "IHBRD is noted ({severityAdj})." },
+          "impressionText": "IHBRD ({severityAdj}).",
+          "impressionPriority": 2
+        },
+        {
+          "id": "hepatomegaly",
+          "matchPhrases": ["hepatomegaly", "enlarged liver"],
+          "subject": "hepatomegaly",
+          "slot": "steat",
+          "render": { "default": "Liver is enlarged{qualifierPhrase}." },
+          "impressionText": "Hepatomegaly.",
+          "impressionPriority": 3
+        }
+      ]
+    },
+    {
+      "id": "kidneys",
+      "title": "Kidneys",
+      "organ": "kidney",
+      "organHints": ["kidney", "renal"],
+      "normalStatements": [
+        "Both kidneys are normal in size, position and parenchymal enhancement.",
+        "No calculi.",
+        "No hydronephrosis.",
+        "No perinephric fat stranding.",
+        "No renal cysts."
+      ],
+      "slots": [
+        { "id": "calculi", "replaceNormal": "No calculi" },
+        { "id": "hydro", "replaceNormal": "No hydronephrosis" },
+        { "id": "stranding", "replaceNormal": "No perinephric fat stranding" },
+        { "id": "cysts", "replaceNormal": "No renal cysts" }
+      ],
+      "rules": [
+        {
+          "id": "renal-perinephric-stranding",
+          "matchPhrases": ["perinephric fat stranding", "perinephric stranding", "perinephric"],
+          "subject": "perinephric fat stranding",
+          "slot": "stranding",
+          "render": {
+            "bilateral": "{severityCap} bilateral perinephric fat stranding is noted.",
+            "right": "{severityCap} perinephric fat stranding is noted around the right kidney.",
+            "left": "{severityCap} perinephric fat stranding is noted around the left kidney.",
+            "default": "{severityCap} perinephric fat stranding is noted."
+          },
+          "impressionText": "{severityAdj} bilateral perinephric fat stranding.",
+          "impressionPriority": 2
+        },
+        {
+          "id": "renal-cyst",
+          "matchPhrases": ["renal cyst", "simple cyst", "cyst"],
+          "subject": "simple cyst",
+          "slot": "cysts",
+          "locationStyle": "pole",
+          "render": { "default": "A {sizePhrase} simple cyst{qualifierPhrase} is noted in {sitePhrase}{polePhrase}." },
+          "impressionText": "{sizePhrase} simple cyst{qualifierShort} in {siteShort}.",
+          "impressionPriority": 5
+        },
+        {
+          "id": "renal-calculus",
+          "matchPhrases": ["calculus", "calculi", "stone"],
+          "subject": "calculus",
+          "slot": "calculi",
+          "render": { "default": "A {sizePhrase}{qualifiersAdj} calculus is noted in {sitePhrase}{polePhrase}." },
+          "impressionText": "{sizePhrase} calculus{qualifierShort} in {siteShort}.",
+          "impressionPriority": 2
+        },
+        {
+          "id": "hydronephrosis",
+          "matchPhrases": ["hydronephrosis", "hdn", "pelvicalyceal dilatation"],
+          "subject": "hydronephrosis",
+          "slot": "hydro",
+          "render": { "default": "{severityCap} hydronephrosis is noted in {sitePhrase}." },
+          "impressionText": "{severityAdj} hydronephrosis in {siteShort}.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "spleen",
+      "title": "Spleen",
+      "organ": "spleen",
+      "organHints": ["spleen"],
+      "normalStatements": ["Spleen is normal in size and density.", "No focal lesion."],
+      "slots": [
+        { "id": "spleno", "replaceNormal": "normal in size" },
+        { "id": "splenic-lesion", "replaceNormal": "No focal lesion" }
+      ],
+      "rules": [
+        {
+          "id": "splenomegaly",
+          "matchPhrases": ["splenomegaly", "enlarged spleen"],
+          "subject": "splenomegaly",
+          "slot": "spleno",
+          "render": { "default": "Spleen is enlarged{qualifierPhrase}." },
+          "impressionText": "Splenomegaly.",
+          "impressionPriority": 2
+        },
+        {
+          "id": "splenic-lesion",
+          "matchPhrases": ["lesion", "mass", "infarct", "laceration"],
+          "subject": "splenic lesion",
+          "slot": "splenic-lesion",
+          "render": { "default": "A {sizePhrase}{qualifiersAdj} lesion is noted in the spleen." },
+          "impressionText": "Splenic lesion — characterise and correlate.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "pancreas",
+      "title": "Pancreas",
+      "organ": "pancreas",
+      "organHints": ["pancrea"],
+      "normalStatements": ["Pancreas is normal in size and attenuation.", "No focal lesion or calcification.", "Peripancreatic fat is normal."],
+      "slots": [
+        { "id": "pancreatitis", "replaceNormal": "normal in size and attenuation" },
+        { "id": "panc-lesion", "replaceNormal": "No focal lesion" },
+        { "id": "panc-fat", "replaceNormal": "Peripancreatic fat" }
+      ],
+      "rules": [
+        {
+          "id": "pancreatitis",
+          "matchPhrases": ["pancreatitis", "peri-pancreatic", "peripancreatic"],
+          "subject": "pancreatitis",
+          "slot": "pancreatitis",
+          "qualifierMode": "adjective",
+          "render": { "default": "Pancreas shows {severityAdj} pancreatitis{qualifierPhrase}." },
+          "impressionText": "{severityAdj} acute pancreatitis.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "pancreatic-lesion",
+          "matchPhrases": ["mass", "lesion"],
+          "subject": "pancreatic lesion",
+          "slot": "panc-lesion",
+          "render": { "default": "A {sizePhrase}{qualifiersAdj} lesion is noted in the pancreas." },
+          "impressionText": "Pancreatic lesion — characterise and correlate.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "pancreatic-calcification",
+          "matchPhrases": ["calcification", "calcifications"],
+          "subject": "pancreatic calcification",
+          "slot": "panc-lesion",
+          "render": { "default": "Calcifications are noted in the pancreas." },
+          "impressionText": "Pancreatic calcifications.",
+          "impressionPriority": 3
+        }
+      ]
+    },
+    {
+      "id": "gallbladder",
+      "title": "Gallbladder",
+      "organ": "gallbladder",
+      "organHints": ["gallbladder"],
+      "normalStatements": ["Gallbladder is normal in wall thickness and contents.", "No calculi."],
+      "slots": [
+        { "id": "gb-wall", "replaceNormal": "wall thickness" },
+        { "id": "gb-stones", "replaceNormal": "No calculi" }
+      ],
+      "rules": [
+        {
+          "id": "cholecystitis",
+          "matchPhrases": ["cholecystitis", "wall thickening", "pericholecystic"],
+          "subject": "cholecystitis",
+          "slot": "gb-wall",
+          "render": { "default": "Gallbladder shows features of {severityAdj} cholecystitis{qualifierPhrase}." },
+          "impressionText": "Features of acute cholecystitis.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "cholelithiasis",
+          "matchPhrases": ["calculi", "stones", "gallstone", "cholelithiasis"],
+          "subject": "gallbladder calculi",
+          "slot": "gb-stones",
+          "render": { "default": "Multiple calculi are noted in the gallbladder{qualifierPhrase}." },
+          "impressionText": "Gallbladder calculi.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "biliary",
+      "title": "Biliary Tree",
+      "organ": "biliary",
+      "organHints": ["cbd", "biliary"],
+      "normalStatements": ["CBD is normal in caliber and shows no intraluminal filling defect."],
+      "slots": [
+        { "id": "cbd-dilation", "replaceNormal": "CBD is normal in caliber" }
+      ],
+      "rules": [
+        {
+          "id": "cbd-dilatation",
+          "matchPhrases": ["cbd", "choledocholithiasis", "common bile duct"],
+          "subject": "CBD dilatation",
+          "slot": "cbd-dilation",
+          "render": { "default": "CBD shows {severityAdj} dilatation{qualifierPhrase}." },
+          "impressionText": "{severityAdj} CBD dilatation.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "adrenals",
+      "title": "Adrenal Glands",
+      "organ": "adrenal",
+      "organHints": ["adrenal"],
+      "normalStatements": ["Adrenal glands are unremarkable."],
+      "slots": [
+        { "id": "adrenal-lesion", "replaceNormal": "Adrenal glands are unremarkable" }
+      ],
+      "rules": [
+        {
+          "id": "adrenal-nodule",
+          "matchPhrases": ["nodule", "mass", "lesion", "adenoma"],
+          "subject": "adrenal nodule",
+          "slot": "adrenal-lesion",
+          "render": { "default": "A {sizePhrase}{qualifiersAdj} nodule is noted in {sitePhrase}." },
+          "impressionText": "{sizePhrase} adrenal nodule{qualifierShort} in {siteShort} — characterise.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "bowel",
+      "title": "Bowel and Appendix",
+      "organ": "bowel",
+      "organHints": ["bowel", "appendix"],
+      "normalStatements": ["Bowel loops show normal caliber and enhancement.", "No obstruction.", "Appendix is unremarkable."],
+      "slots": [
+        { "id": "obstruction", "replaceNormal": "No obstruction" },
+        { "id": "appendicitis", "replaceNormal": "Appendix is unremarkable" }
+      ],
+      "rules": [
+        {
+          "id": "appendicitis",
+          "matchPhrases": ["appendicitis", "appendicolith", "appendicular"],
+          "subject": "appendicitis",
+          "slot": "appendicitis",
+          "render": { "default": "Acute appendicitis{qualifierPhrase} is noted — {sizePhrase} appendix with surrounding inflammatory changes." },
+          "impressionText": "Acute appendicitis.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "bowel-obstruction",
+          "matchPhrases": ["obstruction", "transition point"],
+          "subject": "bowel obstruction",
+          "slot": "obstruction",
+          "render": { "default": "{severityCap} small bowel obstruction{qualifierPhrase} is noted." },
+          "impressionText": "{severityAdj} bowel obstruction.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "stomach",
+      "title": "Stomach",
+      "organ": "stomach",
+      "organHints": ["stomach"],
+      "normalStatements": ["Stomach is unremarkable."],
+      "slots": [
+        { "id": "gastric-lesion", "replaceNormal": "Stomach is unremarkable" }
+      ],
+      "rules": [
+        {
+          "id": "gastric-lesion",
+          "matchPhrases": ["mass", "lesion", "thickening"],
+          "subject": "gastric lesion",
+          "slot": "gastric-lesion",
+          "render": { "default": "{severityCap} gastric wall thickening{qualifierPhrase} is noted." },
+          "impressionText": "Gastric lesion — characterise and correlate.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "vasculature",
+      "title": "Vasculature",
+      "organ": "vessel",
+      "organHints": ["aorta"],
+      "normalStatements": ["Aorta and its major branches are unremarkable."],
+      "slots": [
+        { "id": "aneurysm", "replaceNormal": "Aorta and its major branches" }
+      ],
+      "rules": [
+        {
+          "id": "aneurysm",
+          "matchPhrases": ["aneurysm", "ectasia"],
+          "subject": "aneurysm",
+          "slot": "aneurysm",
+          "render": { "default": "{severityCap} {qualifierPhrase} aneurysm is noted in {sitePhrase}." },
+          "impressionText": "{sizeShort} aneurysm — correlate.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "peritoneum",
+      "title": "Peritoneum and Lymph Nodes",
+      "organ": "peritoneum",
+      "organHints": ["peritoneum", "lymph node"],
+      "normalStatements": ["No free fluid or free air.", "No significant lymphadenopathy."],
+      "slots": [
+        { "id": "free-fluid", "replaceNormal": "No free fluid" },
+        { "id": "nodes", "replaceNormal": "No significant lymphadenopathy" }
+      ],
+      "rules": [
+        {
+          "id": "free-fluid",
+          "matchPhrases": ["free fluid", "ascites", "collection", "collections"],
+          "subject": "free fluid / collection",
+          "slot": "free-fluid",
+          "qualifierMode": "adjective",
+          "render": { "default": "A {sizePhrase}{qualifiersAdj} collection{qualifierPhrase} is noted in {sitePhrase}{locationPhrase}." },
+          "impressionText": "Collection/free fluid in the abdomen.",
+          "impressionPriority": 2
+        },
+        {
+          "id": "lymphadenopathy",
+          "matchPhrases": ["lymphadenopathy", "lymph nodes", "nodes"],
+          "subject": "lymphadenopathy",
+          "slot": "nodes",
+          "render": { "default": "{severityCap} lymphadenopathy{qualifierPhrase} is noted." },
+          "impressionText": "Lymphadenopathy.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "bladder",
+      "title": "Urinary Bladder",
+      "organ": "bladder",
+      "organHints": ["bladder"],
+      "normalStatements": ["Urinary bladder is unremarkable with normal wall thickness."],
+      "slots": [
+        { "id": "bladder-lesion", "replaceNormal": "Urinary bladder is unremarkable" }
+      ],
+      "rules": [
+        {
+          "id": "bladder-lesion",
+          "matchPhrases": ["mass", "lesion", "thickening", "calculus", "calculi", "stone"],
+          "subject": "bladder lesion",
+          "slot": "bladder-lesion",
+          "render": { "default": "{severityCap} bladder pathology{qualifierPhrase} is noted — {sizePhrase} lesion/thickening" },
+          "impressionText": "Bladder pathology — characterise.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "lung-bases",
+      "title": "Visualised Lung Bases",
+      "organ": "lung",
+      "organHints": ["lung"],
+      "normalStatements": ["Visualised lung bases are clear.", "No pleural effusion."],
+      "slots": [
+        { "id": "lung-lesion", "replaceNormal": "lung bases are clear" },
+        { "id": "effusion", "replaceNormal": "No pleural effusion" }
+      ],
+      "rules": [
+        {
+          "id": "lung-lesion",
+          "matchPhrases": ["lesion", "mass", "consolidation", "nodule"],
+          "subject": "lung nodule",
+          "slot": "lung-lesion",
+          "render": { "default": "{severityCap} {qualifierPhrase} nodule/consolidation is noted in the visualised lung bases." },
+          "impressionText": "Lung base lesion — characterise.",
+          "impressionPriority": 2
+        },
+        {
+          "id": "pleural-effusion",
+          "matchPhrases": ["effusion"],
+          "subject": "pleural effusion",
+          "slot": "effusion",
+          "render": { "default": "{severityCap} pleural effusion is noted." },
+          "impressionText": "{severityAdj} pleural effusion.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "bones",
+      "title": "Visualised Bones",
+      "organ": "bone",
+      "organHints": ["bone", "rib", "vertebra"],
+      "normalStatements": ["Visualised bones show no significant abnormality."],
+      "slots": [
+        { "id": "bone-lesion", "replaceNormal": "Visualised bones" }
+      ],
+      "rules": [
+        {
+          "id": "bone-lesion",
+          "matchPhrases": ["lesion", "lytic", "fracture", "sclerotic"],
+          "subject": "bone lesion",
+          "slot": "bone-lesion",
+          "render": { "default": "{severityCap} {qualifierPhrase} osseous lesion is noted in {sitePhrase}." },
+          "impressionText": "Osseous lesion — characterise and correlate.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "musculoskeletal",
+      "title": "Musculoskeletal",
+      "organ": "bone",
+      "organHints": ["spine", "sacrum"],
+      "normalStatements": ["No significant degenerative or traumatic osseous changes in the visualised spine or pelvis."],
+      "slots": [
+        { "id": "spine-lesion", "replaceNormal": "visualised spine" }
+      ],
+      "rules": [
+        {
+          "id": "spine-lesion",
+          "matchPhrases": ["compression", "lesion", "fracture"],
+          "subject": "spinal lesion",
+          "slot": "spine-lesion",
+          "render": { "default": "{severityCap} {qualifierPhrase} lesion/fracture is noted in the visualised spine." },
+          "impressionText": "Spinal lesion — correlate.",
+          "impressionPriority": 2
+        }
+      ]
+    }
+  ],
+  "indicationPatterns": [
+    { "match": "trauma|rt c?|blunt abdominal", "line": "Findings correlate with the stated history of blunt abdominal trauma." },
+    { "match": "weight loss|malignancy|mets|neoplasm|carcinoma", "line": "Consider malignancy if findings are suggestive; correlate with the stated clinical history." },
+    { "match": "fever|infection|sepsis", "line": "Findings correlate with the stated infective symptomatology." },
+    { "match": "jaundice|bilirubin", "line": "Findings correlate with the stated jaundice." }
+  ],
+  "relevantNegatives": [
+    { "match": "abdominal pain|appendicitis|iliac fossa|rlq", "requiresSectionNormal": "bowel", "clause": "No features of acute appendicitis." },
+    { "match": "obstruction", "requiresSectionNormal": "bowel", "clause": "No features of bowel obstruction." }
+  ]
+}

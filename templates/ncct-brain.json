@@ -1,0 +1,145 @@
+{
+  "id": "ncct-brain",
+  "name": "NCCT Brain",
+  "studyType": "Non-enhanced CT brain, axial sections",
+  "defaultPhase": "non-contrast",
+  "sections": [
+    {
+      "id": "brain",
+      "title": "Brain Parenchyma",
+      "organ": "brain",
+      "organHints": ["brain", "cerebral"],
+      "normalStatements": [
+        "The brain parenchyma is normal in density.",
+        "No intracranial hemorrhage.",
+        "No infarct."
+      ],
+      "slots": [
+        { "id": "hemorrhage", "replaceNormal": "No intracranial hemorrhage" },
+        { "id": "infarct", "replaceNormal": "No infarct" }
+      ],
+      "rules": [
+        {
+          "id": "intracerebral-hemorrhage",
+          "matchPhrases": ["intracerebral hemorrhage", "hemorrhage", "hge", "bleeding", "bleed"],
+          "subject": "intracerebral hemorrhage",
+          "slot": "hemorrhage",
+          "render": { "default": "Acute{qualifiersAdj} intracerebral hemorrhage is noted{locationPhrase}." },
+          "impressionText": "Acute intracerebral hemorrhage{locationShort}.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "infarct",
+          "matchPhrases": ["infarct", "infarction", "stroke"],
+          "subject": "infarct",
+          "slot": "infarct",
+          "qualifierMode": "adjective",
+          "render": { "default": "Region{locationPhrase} of acute{qualifiersAdj} infarct is noted." },
+          "impressionText": "Acute infarct{locationShort}.",
+          "impressionPriority": 1
+        },
+        {
+          "id": "edema",
+          "matchPhrases": ["edema", "oedema", "hypodensity"],
+          "subject": "cerebral edema",
+          "slot": null,
+          "render": { "default": "{severityCap} cerebral edema{qualifierPhrase} is noted." },
+          "impressionText": "{severityAdj} cerebral edema.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "extraaxial",
+      "title": "Extra-axial Spaces",
+      "organ": "brain",
+      "organHints": ["extradural", "subdural"],
+      "normalStatements": ["No extra-axial collection."],
+      "slots": [
+        { "id": "collection", "replaceNormal": "No extra-axial collection" }
+      ],
+      "rules": [
+        {
+          "id": "extraaxial-hemorrhage",
+          "matchPhrases": ["extradural hemorrhage", "subdural hemorrhage", "extradural", "subdural", "sdh", "edh"],
+          "subject": "extra-axial hemorrhage",
+          "slot": "collection",
+          "render": { "default": "Acute{qualifiersAdj} hemorrhage{qualifierPhrase} is noted{locationPhrase}." },
+          "impressionText": "Acute extra-axial hemorrhage{locationShort}.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "ventricles",
+      "title": "Ventricles",
+      "organ": "brain",
+      "organHints": ["ventricle"],
+      "normalStatements": ["Ventricular system is normal in size and position."],
+      "slots": [
+        { "id": "ventricular", "replaceNormal": "Ventricular system" }
+      ],
+      "rules": [
+        {
+          "id": "hydrocephalus",
+          "matchPhrases": ["hydrocephalus", "dilated ventricles", "ventricular prominence"],
+          "subject": "hydrocephalus",
+          "slot": "ventricular",
+          "render": { "default": "{severityCap} hydrocephalus{qualifierPhrase} is noted." },
+          "impressionText": "{severityAdj} hydrocephalus.",
+          "impressionPriority": 2
+        }
+      ]
+    },
+    {
+      "id": "midline",
+      "title": "Midline and Cisterns",
+      "organ": "brain",
+      "organHints": ["midline"],
+      "normalStatements": ["Midline structures are central.", "Basal cisterns are patent."],
+      "slots": [
+        { "id": "midline-shift", "replaceNormal": "Midline structures" }
+      ],
+      "rules": [
+        {
+          "id": "midline-shift",
+          "matchPhrases": ["midline shift", "shift of midline", "subfalcine"],
+          "subject": "midline shift",
+          "slot": "midline-shift",
+          "render": { "default": "{sizePhrase} midline shift{qualifierPhrase} is noted to the opposite side." },
+          "impressionText": "{sizeShort} midline shift.",
+          "impressionPriority": 1
+        }
+      ]
+    },
+    {
+      "id": "skull-scalp",
+      "title": "Skull and Scalp",
+      "organ": "bone",
+      "organHints": ["skull", "calvarium"],
+      "normalStatements": ["Skull and scalp are unremarkable."],
+      "slots": [
+        { "id": "fracture", "replaceNormal": "Skull and scalp" }
+      ],
+      "rules": [
+        {
+          "id": "skull-fracture",
+          "matchPhrases": ["fracture", "depressed fracture"],
+          "subject": "skull fracture",
+          "slot": "fracture",
+          "render": { "default": "{qualifiersAdj} fracture is noted{locationPhrase}." },
+          "impressionText": "Skull fracture{locationShort}.",
+          "impressionPriority": 1
+        }
+      ]
+    }
+  ],
+  "indicationPatterns": [
+    { "match": "stroke|weakness|hemiplegia|aphasia", "line": "Findings correlate with the stated acute neurological deficit." },
+    { "match": "head injury|trauma|fall", "line": "Findings correlate with the stated history of head injury." },
+    { "match": "headache|thunderclap", "line": "Findings correlation with the stated headache should be assessed clinically." }
+  ],
+  "relevantNegatives": [
+    { "match": "stroke|weakness|infarct", "requiresSectionNormal": "brain", "clause": "No infarct demonstrated." }
+  ]
+}

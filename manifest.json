@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Rad-Copilot — Radiology Reporting Assistant",
+  "short_name": "Rad-Copilot",
+  "version": "1.0.0",
+  "description": "Free, locally-running dictation-driven reporting whiteboard for radiologists. No cloud, no subscriptions.",
+  "permissions": ["sidePanel", "storage", "clipboardWrite"],
+  "side_panel": {
+    "default_path": "sidepanel/index.html"
+  },
+  "action": {
+    "default_title": "Toggle Rad-Copilot whiteboard"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "commands": {
+    "toggle-panel": {
+      "suggested_key": { "default": "Alt+Shift+R" },
+      "description": "Toggle the Rad-Copilot whiteboard"
+    }
+  },
+  "minimum_chrome_version": "116"
+}

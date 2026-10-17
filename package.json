@@ -1,0 +1,14 @@
+{
+  "name": "radiology-copilot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Free, locally-running AI-assisted radiology reporting copilot (Chrome extension).",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

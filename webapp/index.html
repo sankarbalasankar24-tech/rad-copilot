@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rad-Copilot</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b6e4f'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='Segoe UI'>R</text></svg>" />
+<link rel="stylesheet" href="./web-ui.css" />
+</head>
+<body>
+  <header id="topbar">
+    <div class="brand" title="Rad-Copilot — structured dictation for radiology">
+      <div class="mark">R</div>
+      <div>
+        <span class="name">Rad-Copilot</span>
+        <span class="tag">Structured radiology dictation</span>
+      </div>
+    </div>
+    <button id="micBtn" class="primary" title="Alt+Shift+S — start/stop dictation">🎙 Start</button>
+    <select id="studySelect" title="Study template"></select>
+    <input id="indication" placeholder="Clinical indication (optional)" spellcheck="false" />
+    <a class="localLink" href="./settings.html" target="_blank" rel="noopener">⚙ Templates &amp; Settings</a>
+  </header>
+
+  <section id="statusBar">
+    <span id="statusText">Idle</span>
+    <span id="interimCaption" class="interim" aria-live="polite"></span>
+  </section>
+
+  <section id="reviewBanner" class="hidden">
+    <strong>⚠ Items need your review</strong>
+    <ul id="reviewList"></ul>
+  </section>
+
+  <main id="report" tabindex="0" aria-label="Report whiteboard"></main>
+
+  <section id="impressionPanel" class="hidden">
+    <h2>Impression (draft)</h2>
+    <div id="impressionText" contenteditable="true" spellcheck="false"></div>
+    <button id="regenImprBtn" class="ghost">↻ Regenerate</button>
+    <button id="acceptImprBtn" class="primary">✓ Accept impression</button>
+  </section>
+
+  <section id="issuesPanel" class="hidden">
+    <h2>Consistency issues</h2>
+    <ul id="issuesList"></ul>
+  </section>
+
+  <footer id="actions">
+    <button id="checkBtn" title="Final consistency check">✓ Check</button>
+    <button id="copyBtn" class="primary" title="Alt+Shift+C — copy final report">📋 Copy Final Report</button>
+    <button id="newBtn" class="ghost" title="Clear workspace and start a new report">✚ New Report</button>
+    <button id="exportBtn" class="ghost" title="Open Templates &amp; Settings">⚙ Templates…</button>
+  </footer>
+
+  <div id="eventLog" aria-live="polite"></div>
+
+  <script>
+    // show focus rings only for keyboard users
+    window.addEventListener('keydown', (e) => { if (e.key === 'Tab') document.body.classList.add('kb'); });
+    window.addEventListener('mousedown', () => document.body.classList.remove('kb'));
+  </script>
+  <script type="module" src="./web-app.js"></script>
+</body>
+</html>
